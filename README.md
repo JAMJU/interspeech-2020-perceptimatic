@@ -1,6 +1,6 @@
 # Interspeech-2020-Perceptimatic
 
-This git contains the dataset Native Perceptimatic presented in the paper NAME PAPER, along with all the code to perform the analysis done in the latter.
+This git contains the dataset Perceptimatic presented in the paper **Perceptimatic: A human speech perception benchmark for unsupervised subword modelling** (Juliette Millet and Ewan Dunbar, submitted to Interspeech 2020), along with all the code to perform the analysis done in the latter.
 
 ### General environment required
 * python 3.6/7
@@ -11,14 +11,56 @@ This git contains the dataset Native Perceptimatic presented in the paper NAME P
 
 # Dataset
 ## Cleaned stimuli
-[DESCRIPTION STIMULI FILE]
+We provide the cleaned stimuli on the from of onset and offset for the 2017 Zerospeech one second French and English stimuli. 
+The onset, offset and labels of the cleaned French triphones are in DATA/french/all_aligned_clean_french.csv, the English are in DATA/english/all_aligned_clean_english.csv. The files have the following columns:
+
+| index	| #file |	onset|	offset |	#phone	| prev-phone | next-phone	| speaker|
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+index is how, with the language, we refer to each triphone in the rest of the files,
+ '#file in the original 2017 ZeroSpeech wavfile, onset and offset are beginning and end of triphone in second,
+ '#phone is the centre phone, prev-phone and next-phone are the surrounding phones, speaker is the reference numbe rof the speaker.
+ 
+ We provide the list of triplets used for the humans and models experiment in the file DATA/all_triplets.csv:
+ 
+ filename|	TGT	|OTH|	prev_phone	|next_phone|	TGT_item	|OTH_item	|X_item	|TGT_first	|speaker_tgt_oth	|speaker_x|
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+filename is the name of the file containing the triplet (used for the humans experiment), it can be seen as the id of the triplet. 
+If we consider the triplet as an A, B and X stimuli, with A and X in the same category, in the file, TGT is the centre phone of 
+A and X, OTH is the center phone of B, prev_phone an next_phone are the surrounding phones. TGT_item, OTH_item and X_item refer 
+to the indexes of the stimuli used as A, B and X. TGT_first indicate if A comes first in the file or not. We can note that each set of three extracted 
+triphones appears in four distinct items, corresponding to orders AB--A (that is, X is another instance of the three-phone sequence A), BA--B, AB--B, and BA--A. 
+
 
 ## Human test
 We give all the code to perform the human experiments, and we provide the triplet used on demand (contact juliette.millet@cri-paris.org)
+For each triplet, the delay between first and second stimuli is 500 milliseconds, and between second and third 650 milliseconds, 
+as pilot subjects reported having difficulty recalling the reference stimuli when the delays were exactly equal.
 
 ## Human results
-[DESCRIPTION HUMAN RESULTS FILE]
 
+Human results are in DATA/humans_and_models.csv, this file also contains delta values for the models we evaluate in the paper. 
+Each line corresponds to a couple (triplet, participant). This file has the following columns:
+
+* individual : code of the individual (unique among one language group)
+* language : language group of the participant (French speaking or English speaking)
+* filename: triplet id (see section on the cleaned stimuli)
+* TGT: same as in DATA/all_triplets.csv
+* OTH: same as in DATA/all_triplets.csv
+* prev_phone: same as in DATA/all_triplets.csv
+* next_phone: same as in DATA/all_triplets.csv
+* TGT_item: same as in DATA/all_triplets.csv
+* OTH_item: same as in DATA/all_triplets.csv
+* X_item: same as in DATA/all_triplets.csv
+* TGT_first: same as in DATA/all_triplets.csv (True or False)
+* speaker_tgt_oth: same as in DATA/all_triplets.csv
+* speaker_x: same as in DATA/all_triplets.csv
+* correct_answer: human answer, either -3, -2, -1, 1, 2 or 3. If it is negative then the participant has chosen the OTH item instead of the (correct) TGT item.
+* binarized_answer: binarized version of correct_answer : -1 if correct_answer < 0, 1 otherwise
+* nb_stimuli: number of triplets heard by the participants with this triplet included (between 1 and ~190)
+* TGT_first_code: 1 if TGT_first is True, 0 otherwise
+* language_code: 1 for French triplet, 0 for English triplet
 
 # Analysis code
 In this section we describe all the steps to evaluate any model with our methods.
