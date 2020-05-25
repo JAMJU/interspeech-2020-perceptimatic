@@ -60,7 +60,7 @@ Each line corresponds to a couple (triplet, participant). This file has the foll
 * binarized_answer: binarized version of correct_answer : -1 if correct_answer < 0, 1 otherwise
 * nb_stimuli: number of triplets heard by the participants with this triplet included (between 1 and ~190)
 * TGT_first_code: 1 if TGT_first is True, 0 otherwise
-* language_code: 1 for French triplet, 0 for English triplet
+* language_code: 1 for French participants, 0 for English participants
 
 # Analysis code
 In this section we describe all the steps to evaluate any model with our methods.
@@ -178,7 +178,7 @@ We cannot provide the models themselves (one trained on the 2017 Zerospeech Fren
 The MFCCs used in the paper were extracted with Kaldi toolkit, using the default paramters, adding the first and second derivatives for a total of 39 dimensions, and we applymean-variance normalization over a moving 300 milliseconds window. We provide the extracted MFCCs on demand on demand (contact juliette.millet@cri-paris.org)
 
 ## Multilingual bottleneck
-We used the Shennong package (https://github.com/bootphon/shennong) to extract the multilingual botteneck features described in [CITE paper] 
+We used the Shennong package (https://github.com/bootphon/shennong) to extract the multilingual botteneck features described in [2] 
 
 To extract these features you need the Shennong package installed (added to the list of requirements listed above). To extract features from wavfiles in a folder F to a folder G do
 
@@ -186,7 +186,7 @@ To extract these features you need the Shennong package installed (added to the 
 
 ## DPGMM
 
-We use the kaldi toolkit to extract MFCCs and apply the same VTLN than in [CITE] (the vtln-mfccs can be provided on demand, contact juliette.millet@cri-paris.org), then we  extract the posteriorgrams from the French and English models from [CITE] we follow the instructions of https://github.com/geomphon/CogSci-2019-Unsupervised-speech-and-human-perception
+We use the kaldi toolkit to extract MFCCs and apply the same VTLN than in [1] (the vtln-mfccs can be provided on demand, contact juliette.millet@cri-paris.org), then we  extract the posteriorgrams from the French and English models from [1] we follow the instructions of https://github.com/geomphon/CogSci-2019-Unsupervised-speech-and-human-perception
 
 # Other notes
 ## Details results of the sampling
@@ -212,3 +212,6 @@ To study how well each model is able to predict human results, we fit a probit m
  Bot |  |  |  |  |  |  |  |  |  |  |  | - | 19.9 | **35.7** | 
  DP |  |  |  |  |  |  |  |  |  |  |  |  | - | 15.8 | 
  
+### References:
+[1] Millet, J., Jurov, N., & Dunbar, E. (2019, July). Comparing unsupervised speech learning directly to human performance in speech perception.
+[2] Fer, R., Matějka, P., Grézl, F., Plchot, O., Veselý, K., & Černocký, J. H. (2017). Multilingually trained bottleneck features in spoken language recognition. Computer Speech & Language, 46, 252-267.
